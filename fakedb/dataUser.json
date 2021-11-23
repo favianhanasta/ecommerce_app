@@ -1,0 +1,18 @@
+{
+  "dataUser": [
+    {
+      "userName": "admin",
+      "email": "admin@gmail.com",
+      "password": "3456",
+      "id": 1,
+      "role": "admin"
+    },
+    {
+      "userName": "favian",
+      "email": "favian@gmail.com",
+      "password": "1234",
+      "role": "user",
+      "id": 2
+    }
+  ]
+}

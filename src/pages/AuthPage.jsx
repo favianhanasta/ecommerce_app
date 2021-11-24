@@ -3,7 +3,7 @@ import React from "react";
 import Login from "../component/Login";
 import Register from "../component/Register";
 
-class LoginRegister extends React.Component {
+class AuthPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -116,4 +116,4 @@ class LoginRegister extends React.Component {
     }
 }
  
-export default LoginRegister;
+export default AuthPage;

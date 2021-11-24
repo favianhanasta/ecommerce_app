@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import React from 'react';
-import LoginRegister from './pages/LoginRegister';
+import AuthPage from './pages/AuthPage';
 
 
 
@@ -14,7 +14,7 @@ class App extends React.Component{
   render(){
     return(
       <div>
-        <LoginRegister/>
+        <AuthPage/>
         
       </div>
     )

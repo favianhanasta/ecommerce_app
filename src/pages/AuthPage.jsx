@@ -88,7 +88,7 @@ class AuthPage extends React.Component {
                 </div>
                 <div className="container">
                     <div className="row">
-                        <div className="col-6">
+                        <div className="col-6 p-4">
                             <Login
                             loginEmail={this.state.loginEmail}
                             loginPassword={this.state.loginPassword}
@@ -96,7 +96,7 @@ class AuthPage extends React.Component {
                             handleInput={this.handleInput}
                             />
                         </div>
-                        <div className="col-6">
+                        <div className="col-6 p-4">
                             <Register
                             handleInput={this.handleInput}
                             btnDaftar={this.btnDaftar}

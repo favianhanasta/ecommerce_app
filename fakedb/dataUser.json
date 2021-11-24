@@ -5,14 +5,41 @@
       "email": "admin@gmail.com",
       "password": "3456",
       "id": 1,
-      "role": "admin"
+      "role": "admin",
+      "status": "admin"
     },
     {
-      "userName": "favian",
-      "email": "favian@gmail.com",
-      "password": "1234",
+      "username": "budi",
+      "email": "@gmail.com",
+      "password": "123",
       "role": "user",
+      "status": "Active",
       "id": 2
     }
-  ]
+  ],
+    "products": [
+      {
+        "nama": "IDALINNEA D",
+        "deskripsi": " Ritsleting yang tersembunyi membuat sarung mudah dilepas.  Sarung bantal dengan tampilan cermin karena memiliki pola yang sama di kedua sisi.  Katun adalah bahan alami lembut dan mudah dirawat yang dapat Anda cuci dengan mesin.",
+        "brand": "IKEA",
+        "kategori": "Perabotan",
+        "harga": 79000,
+        "stock": [
+          {
+            "id": null,
+            "type": "M",
+            "qty": 10
+          },
+          {
+            "id": null,
+            "type": "L",
+            "qty": 12
+          }
+        ],
+        "images": [
+          "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/107/0810720_PE771385_S4.jpg",
+          "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/107/0810719_PE771386_S4.jpg"
+        ],
+        "id": 1
+      }]
 }

@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import { Button, Container, FormGroup, Input, InputGroup, InputGroupText, Label, Toast, ToastBody, ToastHeader } from 'reactstrap';
-
+import {loginAction} from '../redux/actions'
+import {connect} from 'react-redux'
 const API_URL = "http://localhost:2000"
 
 class AuthPage extends React.Component {
@@ -29,7 +30,8 @@ class AuthPage extends React.Component {
 
         axios.get(`${API_URL}/dataUser?email=${this.state.email}&password=${this.passwordLogin.value}`)
             .then((response) => {
-                console.log(response.data)
+                console.log("Response Login ->",response.data)
+                this.props.loginAction(response.data[0])
             }).catch((err) => {
                 console.log(err)
             })
@@ -184,4 +186,4 @@ class AuthPage extends React.Component {
     }
 }
 
-export default AuthPage;
+export default connect(null,{loginAction})(AuthPage);

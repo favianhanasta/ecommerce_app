@@ -3,6 +3,8 @@ import React from "react";
 import { ModalTitle } from "react-bootstrap";
 import { Container, Table,Button,Modal,ModalHeader} from "reactstrap";
 import ModalDetail from "../component/ModalDetail";
+import {productAction} from '../redux/actions'
+import {connect} from 'react-redux'
 
 
 
@@ -36,6 +38,8 @@ class ProductsManagement extends React.Component {
         .then((response)=>{
             console.log(response.data)
             this.setState({products : response.data})
+            console.log("Response GetData->",response.data)
+            this.props.productAction(response.data[0])
         })
         .catch((err)=>{console.log(err)})
         
@@ -148,4 +152,4 @@ class ProductsManagement extends React.Component {
     }
 }
  
-export default ProductsManagement;
+export default connect(null,{productAction})(ProductsManagement);

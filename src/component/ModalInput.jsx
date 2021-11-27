@@ -111,7 +111,7 @@ class ModalInput extends React.Component {
                 </ModalBody>
                 <ModalFooter>  
                     <Button type="button" color="primary" onClick={this.props.btnSubmit}>Save</Button>
-                    <Button color="warning" onClick={this.props.btCancel}>
+                    <Button color="warning" onClick={this.props.toggleInput}>
                         Cancel
                     </Button>
                 </ModalFooter>

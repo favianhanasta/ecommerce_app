@@ -1,6 +1,5 @@
 import logo from './logo.svg';
 import React from 'react';
-import AuthPage from './pages/AuthPage';
 import AuthV2 from './pages/AuthV2';
 import NavbarComponent from './component/Navbar';
 import { Route, Routes } from 'react-router';

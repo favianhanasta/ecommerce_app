@@ -6,8 +6,11 @@ import NavbarComponent from './component/Navbar';
 import { Route, Routes } from 'react-router';
 import HomePage from './pages/HomePage';
 import ProductsManagement from './pages/ProductsManagement';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import { loginAction } from './redux/actions';
 
-
+const API_URL="http://localhost:2000"
 
 class App extends React.Component{
   constructor(props){
@@ -16,6 +19,25 @@ class App extends React.Component{
 
     }
   }
+  componentDidMount(){
+    this.keepLogin()
+  }
+
+  keepLogin=()=>{
+    let local=JSON.parse(localStorage.getItem("data"));
+    if (local){
+
+      axios.get(`${API_URL}/dataUser?email=${local.email}&password${local.password}`)
+      .then((res)=>{
+        console.log("keeplogin", res.data)
+        this.props.loginAction(res.data[0])
+      }).catch((err)=>{
+        
+      })
+    }
+  }
+
+  
   render(){
     return(
       <div>
@@ -30,4 +52,4 @@ class App extends React.Component{
   }
 }
 
-export default App;
+export default connect(null,{loginAction})(App);

@@ -3,9 +3,10 @@ import axios from 'axios';
 import { Button, Container, FormGroup, Input, InputGroup, InputGroupText, Label, Toast, ToastBody, ToastHeader } from 'reactstrap';
 import {loginAction} from '../redux/actions'
 import {connect} from 'react-redux'
+import { Navigate } from 'react-router';
 const API_URL = "http://localhost:2000"
 
-class AuthPage extends React.Component {
+class AuthV2 extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -31,6 +32,7 @@ class AuthPage extends React.Component {
         axios.get(`${API_URL}/dataUser?email=${this.state.email}&password=${this.passwordLogin.value}`)
             .then((response) => {
                 console.log("Response Login ->",response.data)
+                localStorage.setItem("data", JSON.stringify(response.data[0]))
                 this.props.loginAction(response.data[0])
             }).catch((err) => {
                 console.log(err)
@@ -112,6 +114,9 @@ class AuthPage extends React.Component {
     }
 
     render() {
+        if(this.props.iduser){
+            return<Navigate to="/"/>   
+        }
         return (
             <Container className="p-5">
                 <div>
@@ -186,4 +191,10 @@ class AuthPage extends React.Component {
     }
 }
 
-export default connect(null,{loginAction})(AuthPage);
+const mapToProps =(state)=>{
+    return{
+        iduser : state.userReducer.id
+    }
+}
+
+export default connect(mapToProps,{loginAction})(AuthV2);

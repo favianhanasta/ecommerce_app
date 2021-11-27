@@ -1,12 +1,12 @@
 {
   "dataUser": [
     {
-      "userName": "admin",
-      "email": "admin@gmail.com",
-      "password": "3456",
       "id": 1,
+      "username": "Admin-01",
+      "email": "admin@mail.com",
+      "password": "1234",
       "role": "admin",
-      "status": "admin"
+      "status": "Active"
     },
     {
       "username": "budi",
@@ -49,6 +49,27 @@
         "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/107/0810719_PE771386_S4.jpg"
       ],
       "id": 1
+    },
+    {
+      "nama": "SOFA_TYU",
+      "deskripsi": "bonus bantal",
+      "brand": "IKEA",
+      "kategori": "Perabotan",
+      "harga": "2000000",
+      "images": [
+        "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+      ],
+      "stock": [
+        {
+          "type": "medium",
+          "qty": "2"
+        },
+        {
+          "type": "large",
+          "qty": "5"
+        }
+      ],
+      "id": 2
     }
   ]
 }

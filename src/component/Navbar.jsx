@@ -33,14 +33,14 @@ class NavbarComponent extends React.Component {
                 <Collapse isOpen={this.state.openCollapse} navbar>
                     <Nav >
                         <NavItem>
-                            <NavLink style={{ color: "#2d3436", fontWeight: "bold" }}>
+                            <Link to="/product-pages"className="nav-link" style={{ color: "#0984E3", fontWeight: "bold" }}>
                                 Products
-                            </NavLink>
+                            </Link>
                         </NavItem>
                         <NavItem>
-                            <NavLink style={{ color: "#2d3436", fontWeight: "bold" }}>
+                            <Link to="/product-pages"className="nav-link" style={{ color: "#0984E3", fontWeight: "bold" }}>
                                 About
-                            </NavLink>
+                            </Link>
                         </NavItem>
                     </Nav>
                     {

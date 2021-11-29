@@ -75,13 +75,15 @@ class ModalInput extends React.Component {
                             </div>
                         <Row>
                             <Col>
-                                {this.props.inputStock.map((input,index)=> 
+                                {
+                                this.props.inputStock.map((input,index)=> 
                                 <div className="row">
                                     <Input className="col-3 mx-3 my-1"  placeholder={`type - ${index+1}`} type="text" onChange={(e)=>this.props.stockType(e,index)}/>
                                     <Input className="col-3 mx-3 my-1"  placeholder={`Qty - ${index+1}`} type="number" onChange={(e)=>this.props.stockQty(e,index)}/>
                                     <Button className="col-2 mx-3 my-1" color="danger"outline onClick={()=>this.props.btnDeleteInputStock(index)}>Delete</Button>
                                 </div>
-                                )}
+                                )
+                                }
                             </Col> 
                         </Row>
                         </FormGroup>

@@ -55,9 +55,10 @@
       "deskripsi": "bonus bantal",
       "brand": "IKEA",
       "kategori": "Perabotan",
-      "harga": "2000000",
+      "harga": 2000000,
       "images": [
-        "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/commons/1633321084_20515908_S4.jpeg",
+        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/commons/1628235904_20515908_S4.jpeg"
       ],
       "stock": [
         {

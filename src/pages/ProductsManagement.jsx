@@ -5,6 +5,9 @@ import ModalDetail from "../component/ModalDetail";
 import {productAction} from '../redux/actions'
 import {connect} from 'react-redux'
 import ModalInput from "../component/ModalInput";
+import NavItem from "@restart/ui/esm/NavItem";
+import { API_URL } from "../helper";
+
 
 
 
@@ -18,7 +21,7 @@ class ProductsManagement extends React.Component {
             nama:"",
             deskripsi:"",
             brand:"",
-            harga:"",
+            harga:null,
             stock:[
                 {
                     stockType:"",
@@ -30,6 +33,8 @@ class ProductsManagement extends React.Component {
             inputStock:[],
             products:[],
             stock:[],
+            thumbnailIdx : 0,
+            selectedIdImage : null
             
             
         }
@@ -41,7 +46,7 @@ class ProductsManagement extends React.Component {
     }
 
     getData=()=>{
-        axios.get("http://localhost:2000/products")
+        axios.get(`${API_URL}/products`)
         .then((response)=>{
             console.log(response.data)
             this.setState({products : response.data})
@@ -68,7 +73,7 @@ class ProductsManagement extends React.Component {
 
     btnDelete=(idx)=>{
         let id = this.state.products[idx].id
-        axios.delete(`http://localhost:2000/products/${id}`)
+        axios.delete(`${API_URL}/products/${id}`)
         .then((response)=>{
             this.getData()
         })
@@ -79,7 +84,7 @@ class ProductsManagement extends React.Component {
 
     btnDeleteStock=(idx)=>{
         let id = this.state.products[idx].id
-        axios.delete(`http://localhost:2000/products/${id}`)
+        axios.delete(`${API_URL}/products/${id}`)
         .then((response)=>{
             this.getData()
         })
@@ -100,15 +105,28 @@ class ProductsManagement extends React.Component {
         this.setState({ [propState]: value })
     
     }
+    
 
-    
-    
     printData=()=>{
         return this.state.products.map((value,index)=>{
             return (
                 <tr>
                     <td>{index+1}</td>
-                    <td><img src={value.images[0]} width="40%"/></td>
+                    <td>
+                        {
+                            this.state.selectedIdImage==index?
+                            <img src={value.images[this.state.thumbnailIdx]} width="40%"/>
+                            :
+                            <img src={value.images[0]} width="40%"/>
+                        }
+                        <div>
+                            {value.images.map((val,idx)=>{
+                                return <img src={val} className="my-2" style={{cursor:"pointer"}} width="15%" alt={value.nama+index} onClick={()=>this.setState({thumbnailIdx:idx,selectedIdImage:index})}/>
+                            })
+
+                            }
+                        </div>
+                    </td>
                     <td>{value.nama}</td>
                     <td>{value.brand}</td>
                     <td>{value.kategori}</td>
@@ -140,19 +158,24 @@ class ProductsManagement extends React.Component {
     }
     
     btnSubmit=()=>{
-        axios.post(`http://localhost:2000/products`,{
-            nama : this.state.nama,
-            deskripsi : this.state.deskripsi,
-            brand : this.state.brand,
-            kategori: this.state.kategori,
-            harga : this.state.harga,
-            images : this.state.inputImage,
-            stock : this.state.inputStock
-        })
-        .then((response)=>{
-            this.getData()
-            
-        })
+        let {nama,deskripsi,brand,kategori,harga,stock,images} = this.state
+        if(nama==""||deskripsi==""||brand==""||kategori==""||harga==null||stock.length==0||images.length==0){
+            alert("Lengkapi data anda")
+        }else{
+            axios.post(`${API_URL}/products`,{
+                nama : this.state.nama,
+                deskripsi : this.state.deskripsi,
+                brand : this.state.brand,
+                kategori: this.state.kategori,
+                harga : this.state.harga,
+                stock : this.state.inputStock,
+                images : this.state.inputImage,
+            })
+            .then((response)=>{
+                this.getData()
+                
+            })
+        } 
     }
     
     addImage =()=>{
@@ -163,6 +186,7 @@ class ProductsManagement extends React.Component {
     
     addStock =()=>{
         let newStock = {
+            id:null,
             type:"",
             qty:null
         }

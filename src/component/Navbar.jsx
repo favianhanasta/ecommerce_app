@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { Nav, Navbar, NavbarBrand, NavbarText, NavbarToggler, NavLink, Collapse, NavItem,Button,UncontrolledDropdown,DropdownItem,DropdownMenu,DropdownToggle,DropdownItemactive } from "reactstrap";
+import { Nav, Navbar, NavbarBrand, NavbarText, NavbarToggler, NavLink, Collapse, NavItem,Button,UncontrolledDropdown,DropdownItem,DropdownMenu,DropdownToggle,Spinner } from "reactstrap";
 import {connect} from 'react-redux'
 import {logOutAction} from '../redux/actions'
 
@@ -22,16 +22,16 @@ class NavbarComponent extends React.Component {
     }
     render() { 
         return ( 
-            <Navbar expand="md">
+            <Navbar expand="md" className="shadow bg-white rounded">
                 <NavbarBrand>
                     <Link to="/">
                         <img src="https://www.sipayo.com/wp-content/uploads/2017/12/e-commerce.png"
                             width="50px" alt="logo-brand" />
                     </Link>
                 </NavbarBrand>
-                <NavbarToggler onClick={() => this.setState({ openCollapse: !this.state.openCollapse })} />
+                <NavbarToggler onClick={() => this.setState({ openCollapse: !this.state.openCollapse })}/>
                 <Collapse isOpen={this.state.openCollapse} navbar>
-                    <Nav >
+                    <Nav className="me-auto">
                         <NavItem>
                             <Link to="/product-pages"className="nav-link" style={{ color: "#0984E3", fontWeight: "bold" }}>
                                 Products
@@ -44,11 +44,16 @@ class NavbarComponent extends React.Component {
                         </NavItem>
                     </Nav>
                     {
+                        this.props.loading ?
+                        <Spinner animation="border"style={{marginLeft:"auto", marginRight:10}}>
+                            Loading..
+                        </Spinner>
+                        :
                         this.props.username
                             ?
                             <UncontrolledDropdown style={{ marginLeft: "auto" }}>
-                                <DropdownToggle caret nav size="sm" outline className="d-flex align-items-center" style={{ color: "#0984e3" }}>
-                                    Hello,<b style={{ fontWeight: "bold" }}>{this.props.username}</b>
+                                <DropdownToggle caret nav size="sm" outline className="d-flex align-items-center" style={{ color: "#0984e3" }}>                                    
+                                     Hello,<b style={{ fontWeight: "bold" }}>{this.props.username}</b>              
                                 </DropdownToggle>
                                 {
                                     this.props.role == "user"
@@ -77,7 +82,7 @@ class NavbarComponent extends React.Component {
                                             </DropdownItem>
                                         </DropdownMenu>
                                         :
-                                        <DropdownMenu right >
+                                        <DropdownMenu right>
                                             <DropdownItem>
                                                 <Link to="/productManagement-page" style={{ color: "#2d3436" }} className="nav-link">
                                                     Products Management
@@ -98,10 +103,10 @@ class NavbarComponent extends React.Component {
                                 }
                             </UncontrolledDropdown>
                             :
-                            < Link to="/auth-page" style={{ marginLeft: "auto" }}>
-                                <Button type="button" color="warning" outline >Masuk dan Daftar</Button>
+                            <Link to="/auth-page" style={{ marginLeft: "auto" }}>
+                            <Button type="button" color="warning" outline >Masuk dan Daftar</Button>
                             </Link>
-                    }
+                        }
                 </Collapse>
             </Navbar >
         );

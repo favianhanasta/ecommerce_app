@@ -18,7 +18,7 @@ class App extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-
+        loading : true
     }
   }
   componentDidMount(){
@@ -29,15 +29,17 @@ class App extends React.Component{
   keepLogin=()=>{
     let local=JSON.parse(localStorage.getItem("data"));
     if (local){
-
       axios.get(`${API_URL}/dataUser?email=${local.email}&password${local.password}`)
       .then((res)=>{
         console.log("keeplogin", res.data)
+        this.setState({ loading : false})
         this.props.loginAction(res.data[0])
       }).catch((err)=>{
-        console.log(err)
+        
         
       })
+    }else{
+      this.setState({ loading : false})
     }
   }
 
@@ -55,7 +57,9 @@ class App extends React.Component{
   render(){
     return(
       <div>
-        <NavbarComponent/>
+        <NavbarComponent
+          loading = {this.state.loading}
+        />
         <Routes>
           <Route path="/" element={<HomePage/>}/>
           <Route path="/auth-page" element={<AuthV2/>}/>

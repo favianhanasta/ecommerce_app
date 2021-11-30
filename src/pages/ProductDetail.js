@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { API_URL } from "../helper";
-import { Container, Form,Row,Col, FormGroup, UncontrolledCollapse,Button } from "reactstrap";
+import { Container, Form,Row,Col, FormGroup, UncontrolledCollapse,Button, Input, Toast, ToastHeader, ToastBody } from "reactstrap";
 
 class ProductDetail extends React.Component {
     constructor(props) {
@@ -10,8 +10,12 @@ class ProductDetail extends React.Component {
             detail:[],
             selectedIdImage:null,
             thumbnailIdx:0,
-            jumlahCounter:0,
-            idStock:null
+            jumlahQty:1,
+            idStock:null,
+            selectedType:[],
+            toastOpen:false,
+            toastHeader:"",
+            toastBody:""
          }
     }
 
@@ -27,26 +31,47 @@ class ProductDetail extends React.Component {
     }
 
     btnIncrement=()=>{
-        this.setState({
-            jumlahCounter : this.state.jumlahCounter += 1
-        })
+        let {selectedType,jumlahQty} = this.state
+        if(selectedType.qty){
+            if(jumlahQty < selectedType.qty){
+                this.setState({
+                    jumlahQty : jumlahQty += 1,
+                })
+            }else{
+                this.setState({toastOpen: !this.state.toastOpen})
+            }
+        }
+        
+        
     }
 
     btnDecrement=()=>{
-        if(this.state.jumlahCounter!=0){
+        if(this.state.jumlahQty!=1){
             this.setState({
-                jumlahCounter : this.state.jumlahCounter -= 1
+            jumlahQty : this.state.jumlahQty -= 1,
+            toastOpen : false
             })
         }
+        
     }
 
-    render() { 
+    render() {
         return ( 
-            <div className="container-fluid pt-3">
+            <div className="container  pt-3">
+                <div>
+                <Toast isOpen={this.state.toastOpen} style={{position:"fixed",left:10}}>
+                    <ToastHeader icon="warning" toggle={()=> this.setState({toastOpen: false})}>
+                        <strong className="me-auto">Add to Cart Warning</strong>
+                    </ToastHeader>
+                    <ToastBody>
+                        Stok Produk Tidak Cukup
+                    </ToastBody>
+                </Toast>
+                </div>
                 {
                   this.state.detail.map((value,index)=>{
                     return (
-                        <Container className="shadow p-5 bg-white rounded">
+                        <Container className="shadow p-3 bg-white rounded">
                         <Row>
                         <Col className="d-flex" style={{paddingRight:"0"}}>
                             <div style={{width:"15%"}} className="pl-3 mr-4">
@@ -54,13 +79,13 @@ class ProductDetail extends React.Component {
                                 value.images.map((val,idx)=>{
                                     if(this.state.thumbnailIdx == idx){
                                         return (
-                                            <div className="my-3 shadow-sm bg-white rounded p-1" style={{borderBottom:"5px solid #0984E3"}}>
+                                            <div className="mb-2 shadow-sm bg-white rounded p-1" style={{borderBottom:"5px solid #0984E3"}}>
                                                 <img src={val} style={{cursor:"pointer"}} width="100%" onClick={()=>this.setState({thumbnailIdx:idx})}/>
                                             </div>
                                             )
                                     }else{
                                         return (
-                                            <div className="my-3  shadow-sm bg-white rounded">
+                                            <div className="mb-2 shadow-sm bg-white rounded">
                                                 <img src={val} style={{cursor:"pointer"}} width="100%" onClick={()=>this.setState({thumbnailIdx:idx})}/>
                                             </div>
                                             )
@@ -68,34 +93,36 @@ class ProductDetail extends React.Component {
                                 })
                             }
                             </div>
-                            <div>
+                            <div className="text-center">
                                 <img style={{marginLeft:"auto"}} src={value.images[this.state.thumbnailIdx]} width="100%" className="shadow-sm  bg-white rounded"/>
                             </div>
                                 
                         </Col>
                         <Col className="ml-4">
                             <Form className="pr-5">                        
-                                <h3 className="h3" style={{fontWeight:"bolder"}}>{value.nama}</h3>                        
+                                <h4 className="h4" style={{fontWeight:"bolder"}}>{value.nama}</h4>                        
                                 <p className="lead">{value.kategori}</p>
                                 <h1 className="h1" style={{fontWeight:"bolder"}}>IDR {value.harga.toLocaleString()}</h1>
+                                <div style={{ borderBottom: '1.5px solid gray',borderTop: '1.5px solid gray' }}>
                                 {
                                     this.state.idStock != null?
                                     <p className="font-weight-bold my-1" id="toggler" style={{cursor:"pointer"}}>Type : {value.stock[this.state.idStock].type}</p>
                                     : <p className="font-weight-bold my-1" id="toggler" style={{cursor:"pointer"}}>Type :</p>
                                 }
+                                </div>
                                     {
                                     value.stock.map((value,idx)=>{
                                         return (
-                                        <FormGroup>
+                                        <FormGroup className="text-muted my-0">
                                         <UncontrolledCollapse toggler="#toggler" style={{cursor:"pointer"}}>
-                                                    <p onClick={()=>this.setState({idStock : idx})}>{value.type} : {value.qty} </p>
+                                                    <p onClick={()=>this.setState({idStock : idx,selectedType:value})}>{value.type} : {value.qty} </p>
                                         </UncontrolledCollapse>
                                         </FormGroup>
                                         )
                                             })
                                     }
                                                        
-                                <p>{value.deskripsi}</p>
+                                <p style={{textAlign:"justify"}}>{value.deskripsi}</p>
                                 <FormGroup>
                                     <div className="row">
                                         <div className="col-3">
@@ -103,7 +130,7 @@ class ProductDetail extends React.Component {
                                         </div>
                                         <div className="col-4 d-flex align-items-center justify-content-end">
                                             <Button color="secondary" onClick={this.btnDecrement} style={{fontWeight:"bolder"}}> - </Button>
-                                            <p className="h6 mx-3"> {this.state.jumlahCounter} </p>
+                                            <p className="mx-3 h6">{this.state.jumlahQty}</p>
                                             <Button color="success" onClick={this.btnIncrement} style={{fontWeight:"bolder"}}> + </Button>
         
                                         </div>

@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { CardImg, CardTitle, Input,Card,CardBody ,Button} from "reactstrap";
+import { CardImg, CardTitle, Input,Card,CardBody ,Button, Container, ButtonGroup} from "reactstrap";
 import { API_URL } from "../helper";
 
 
@@ -12,16 +12,18 @@ class ProductsPage extends React.Component {
         super(props);
         this.state = { 
             detail:{},
+            page: 1
         }
     }
 
     
     
     printProducts=()=>{
-        return this.props.productsList.map((value,idx)=>{
-            return <div className="col-3 mt-2">
+        let {page} = this.state
+        return this.props.productsList.slice(page>1? (page-1)*8 :page-1,page*8).map((value,idx)=>{
+            return <div className="col-3 mt-2 mb-3">
                 <Link to={`/productdetail-page?id=${value.id}`} style={{textDecoration:"none", color:"black"}}>
-                <Card>
+                <Card className="my-1">
                     <CardImg top width="100%"alt={`${value.nama}-${idx}`} src={value.images[0]}/>
                     <CardBody>
                         <CardTitle tag="h5" style={{fontWeight:"bolder"}}> {value.nama} </CardTitle>
@@ -33,21 +35,38 @@ class ProductsPage extends React.Component {
         })
     }
 
+    printBtPagination = () =>{
+        let btn=[]
+        for(let i=0;i< Math.ceil(this.props.productsList.length/8);i++){
+            btn.push(<Button outline color="primary"
+            disabled={this.state.page=== i + 1 ? true : false} 
+            onClick={()=>this.setState({page: i+1})}>{i+1}</Button>)
+        }
+        return btn;
+    }
 
     render() { 
         return ( 
-            <div className="container">
-                <Input type="select" style={{width:"150px",float:"right"}}>
-                    <option value="harga-asc">Harga Asc</option>
-                    <option value="harga-desc">Harga Desc</option>
-                    <option value="nama-asc">A-Z</option>
-                    <option value="nama-desc">Z-A</option>
-                    <option value="id-asc">Reset</option>
-                
-                
-                </Input>
-                <div className="cotainer row">
-                    {this.printProducts()}
+            <div className="container pt-4">
+                <div className="container">
+                    <Container>
+                        <p className="h1 font-weight-bold text-center mb-2"> Products </p>
+                        <Input type="select" className="my-3"style={{width:"150px",float:"right"}}>
+                        <option value="harga-asc">Harga Asc</option>
+                        <option value="harga-desc">Harga Desc</option>
+                        <option value="nama-asc">A-Z</option>
+                        <option value="nama-desc">Z-A</option>
+                        <option value="id-asc">Reset</option>
+                        </Input>
+                    </Container>
+                    <Container className="row">
+                        {this.printProducts()}
+                    </Container>
+                    <div className="my-3 text-center">
+                        <ButtonGroup>
+                            {this.printBtPagination()}
+                        </ButtonGroup>
+                    </div>
                 </div>
             </div>
          );

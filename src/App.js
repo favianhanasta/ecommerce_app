@@ -23,35 +23,37 @@ class App extends React.Component{
   }
   componentDidMount(){
     this.keepLogin()
-    this.getProduct()
+    // this.getProduct()
+    this.props.productAction()
   }
 
-  keepLogin=()=>{
-    let local=JSON.parse(localStorage.getItem("data"));
-    if (local){
-      axios.get(`${API_URL}/dataUser?email=${local.email}&password${local.password}`)
-      .then((res)=>{
-        console.log("keeplogin", res.data)
+  keepLogin= async ()=>{
+    try {
+      let local=JSON.parse(localStorage.getItem("data"));
+      if (local){
+        let res= await this.props.loginAction(local.email, local.password)
+        if(res.success){
+          this.setState({loading:false})
+        }
+      }else{
         this.setState({ loading : false})
-        this.props.loginAction(res.data[0])
-      }).catch((err)=>{
-        
-        
-      })
-    }else{
-      this.setState({ loading : false})
+      }
+
+    }catch(error){
+      console.log(error)
     }
   }
 
-  getProduct=()=>{
-    axios.get(`${API_URL}/products`)
-    .then((response)=>{
-      this.props.productAction(response.data)
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
-  }
+  // getProduct=()=>{
+  //   this.props.productAction()
+  //   // axios.get(`${API_URL}/products`)
+  //   // .then((response)=>{
+  //   //   this.props.productAction(response.data)
+  //   // })
+  //   // .catch((err)=>{
+  //   //   console.log(err)
+  //   // })
+  // }
 
   
   render(){

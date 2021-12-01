@@ -21,7 +21,7 @@ class HomePage extends React.Component {
                     items={[
                         {
                             key:1,
-                            src:"https://ecs7.tokopedia.net/img/blog/promo/2021/10/payourcc-rework-mei-feature-image-940x339.jpg"
+                            src:"https://ecs7.tokopedia.net/img/blog/promo/2019/05/General-Tokopedia-Banner-Testing-byme-940x339.jpg"
                         },
                         {
                             key:2,

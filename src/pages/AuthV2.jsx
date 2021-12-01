@@ -29,15 +29,7 @@ class AuthV2 extends React.Component {
 
     btLogin = () => {
         // alert(`${this.state.email}, ${this.passwordLogin.value}`)
-
-        axios.get(`${API_URL}/dataUser?email=${this.state.email}&password=${this.passwordLogin.value}`)
-            .then((response) => {
-                console.log("Response Login ->",response.data)
-                localStorage.setItem("data", JSON.stringify(response.data[0]))
-                this.props.loginAction(response.data[0])
-            }).catch((err) => {
-                console.log(err)
-            })
+        this.props.loginAction(this.state.email,this.passwordLogin.value)
     }
 
     btRegis=()=>{

@@ -77,26 +77,26 @@
       "id": 2
     },
     {
-      "nama": "LINNEBÄCK",
+      "nama": "LINNEBACK",
       "deskripsi": "Lebar:\t55 cm Kedalaman:\t69,5 cm Tinggi:\t72,4 cm Lebar dudukan:\t57 cm Kedalaman dudukan:\t50 cm Tinggi dudukan:\t42,4 cm Berat total:\t6,50 kg",
       "brand": "IKEA",
       "kategori": "Kursi",
-      "harga": 995000,
+      "harga": "995000",
       "stock": [
         {
           "id": null,
           "type": "Black",
-          "qty": 12
+          "qty": "20"
         },
         {
           "id": null,
           "type": "White",
-          "qty": 3
+          "qty": "10"
         }
       ],
       "images": [
         "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/334/0933452_PE791908_S4.jpg",
-        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/407/0940712_PE795127_S4.jpg"
+        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/334/0933452_PE791908_S4.jpg"
       ],
       "id": 3
     },
@@ -176,22 +176,15 @@
       "id": 6
     },
     {
-      "nama": "VITLÖK",
+      "nama": "VITLOK",
       "deskripsi": "Pot tanaman digalvanis agar terlindung dari karat.",
       "brand": "IKEA",
       "kategori": "Kotak bunga dengan penyangga",
-      "harga": 299000,
+      "harga": "299000",
       "stock": [
-        {
-          "id": null,
-          "type": "Type-1",
-          "qty": 12
-        },
-        {
-          "id": null,
-          "type": "Type-2",
-          "qty": 13
-        }
+        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/541/0954177_PE804200_S4.jpg",
+        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/541/0954178_PE804201_S4.jpg",
+        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/541/0954179_PE804202_S4.jpg"
       ],
       "images": [
         "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/541/0954177_PE804200_S4.jpg",
@@ -251,22 +244,14 @@
       "id": 9
     },
     {
-      "nama": "LINNEBÄCK C",
+      "nama": "LINNEBACK C",
       "deskripsi": "Lebar:\t55 cm Kedalaman:\t69,5 cm Tinggi:\t72,4 cm Lebar dudukan:\t57 cm Kedalaman dudukan:\t50 cm Tinggi dudukan:\t42,4 cm Berat total:\t6,50 kg",
       "brand": "IKEA",
       "kategori": "Kursi",
-      "harga": 995000,
+      "harga": "995000",
       "stock": [
-        {
-          "id": null,
-          "type": "Black",
-          "qty": 12
-        },
-        {
-          "id": null,
-          "type": "White",
-          "qty": 3
-        }
+        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/334/0933452_PE791908_S4.jpg",
+        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/407/0940712_PE795127_S4.jpg"
       ],
       "images": [
         "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/334/0933452_PE791908_S4.jpg",
@@ -275,16 +260,16 @@
       "id": 10
     },
     {
-      "nama": "IDANÄS B",
+      "nama": "IDANAS B",
       "deskripsi": " Anda dapat dengan mudah menyedot debu di bawah rangka tempat tidur untuk menjaga ruang tetap bersih dan bebas debu.  Ada banyak ruang di bawah tempat tidur untuk kotak penyimpanan sehingga sempurna untuk menyimpan selimut dan bantal tambahan.  Sisi tempat tidur dapat disesuaikan memungkinkan Anda untuk menggunakan kasur dengan ketebalan yang berbeda.  Veneer kayu memberi Anda tampilan, rasa dan keindahan yang sama seperti kayu solid dengan variasi unik dalam serat, warna, dan tekstur.",
       "brand": "IKEA",
       "kategori": "Rangka tempat tidur",
-      "harga": 5499000,
+      "harga": "5499000",
       "stock": [
         {
           "id": null,
           "type": "White",
-          "qty": 5
+          "qty": "10"
         },
         {
           "id": null,
@@ -350,22 +335,15 @@
       "id": 13
     },
     {
-      "nama": "VITLÖK B",
+      "nama": "VITLOK B",
       "deskripsi": "Pot tanaman digalvanis agar terlindung dari karat.",
       "brand": "IKEA",
       "kategori": "Kotak bunga dengan penyangga",
-      "harga": 299000,
+      "harga": "299000",
       "stock": [
-        {
-          "id": null,
-          "type": "Type-1",
-          "qty": 12
-        },
-        {
-          "id": null,
-          "type": "Type-2",
-          "qty": 13
-        }
+        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/541/0954178_PE804201_S4.jpg",
+        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/541/0954177_PE804200_S4.jpg",
+        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/541/0954179_PE804202_S4.jpg"
       ],
       "images": [
         "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/541/0954178_PE804201_S4.jpg",

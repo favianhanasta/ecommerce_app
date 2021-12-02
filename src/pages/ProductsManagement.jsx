@@ -1,6 +1,6 @@
 import axios from "axios";
 import React from "react";
-import { Container, Table,Button,Modal,ModalHeader, Input,Col,Row} from "reactstrap";
+import { Container, Table,Button,Modal,ModalHeader, Input,Col,Row,ButtonGroup} from "reactstrap";
 import ModalDetail from "../component/ModalDetail";
 import {productAction} from '../redux/actions'
 import {connect} from 'react-redux'
@@ -34,28 +34,29 @@ class ProductsManagement extends React.Component {
             products:[],
             stock:[],
             thumbnailIdx : 0,
-            selectedIdImage : null
+            selectedIdImage : null,
+            page:1,
+            handle : 2
             
             
         }
     }
 
     componentDidMount(){
-        // fungsi yg digunakan untuk melakukan request data pertama kali ke backend
-        this.getData();
+        this.props.productAction()
     }
 
-    getData=()=>{
-        axios.get(`${API_URL}/products`)
-        .then((response)=>{
-            console.log(response.data)
-            this.setState({products : response.data})
-            console.log("Response GetData->",response.data)
-            this.props.productAction(response.data[0])
-        })
-        .catch((err)=>{console.log(err)})
+    // getData=()=>{
+    //     axios.get(`${API_URL}/products`)
+    //     .then((response)=>{
+    //         console.log(response.data)
+    //         this.setState({products : response.data})
+    //         console.log("Response GetData->",response.data)
+    //         this.props.productAction(response.data[0])
+    //     })
+    //     .catch((err)=>{console.log(err)})
         
-    }
+    // }
     
     toggle=(idx)=>{
         this.setState({ 
@@ -72,10 +73,10 @@ class ProductsManagement extends React.Component {
     }
 
     btnDelete=(idx)=>{
-        let id = this.state.products[idx].id
+        let id = this.props.productsList[idx].id
         axios.delete(`${API_URL}/products/${id}`)
         .then((response)=>{
-            this.getData()
+            this.props.productAction()
         })
         .catch((err)=>{
             console.log(err)
@@ -106,12 +107,12 @@ class ProductsManagement extends React.Component {
     
     }
     
-
     printData=()=>{
-        return this.state.products.map((value,index)=>{
+        let {page,handle}=this.state
+        return this.props.productsList.slice(page>1? (page-1)*handle :page-1,page*handle).map((value,index)=>{
             return (
                 <tr>
-                    <td>{index+1}</td>
+                    <td>{value.id}</td>
                     <td>
                         {
                             this.state.selectedIdImage==index?
@@ -136,9 +137,9 @@ class ProductsManagement extends React.Component {
                             Detail
                         </Button>
                         {
-                            this.state.products.length > 0 && this.state.selectedIdx != null ?
+                            this.props.productsList.length > 0 && this.state.selectedIdx != null ?
                             <ModalDetail
-                            produk={this.state.products}
+                            produk={this.props.productsList}
                             selectedId = {this.state.selectedIdx}
                             toggle={this.toggle}
                             modal={this.state.modal}
@@ -229,9 +230,23 @@ class ProductsManagement extends React.Component {
         this.setState({inputStock})
     }
     
+    btnPagination = () =>{
+        let btn =[]
+        for(let i=0;i< Math.ceil(this.props.productsList.length/this.state.handle);i++){
+            btn.push(<Button outline color="primary"
+            disabled={this.state.page=== i + 1 ? true : false} 
+            onClick={()=>this.setState({page: i+1})}>{i+1}</Button>)
+        }
+        return btn;
+    }
     
+    handlePage =(e)=>{
+        this.setState({handle: parseInt(e.target.value)})
+        console.log("tst value",e.target.value)
+    }
     
     render() {
+        console.log(this.props.productsList)
         return ( 
             <Container>
                 <Container className=" text-center my-3">
@@ -278,6 +293,20 @@ class ProductsManagement extends React.Component {
                         {this.printData()}
                         </tbody>
                 </Table>
+                <div>
+                <div className="m-3 d-flex">
+                    <Input type="select" style={{width:"100px"}} onChange={this.handlePage}>
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                    <option value="8">8</option>
+                    <option value="12">12</option>
+                    <option value="16">16</option>
+                    </Input>
+                    <ButtonGroup className="mx-3">
+                        {this.btnPagination()}
+                    </ButtonGroup>
+                </div>
+                </div>
                     
                 </div>
                 </div>
@@ -289,4 +318,10 @@ class ProductsManagement extends React.Component {
     }
 }
  
-export default connect(null,{productAction})(ProductsManagement);
+const mapToProps=((state)=>{
+    return {
+        productsList: state.productsReducer.productsList
+    }
+})
+
+export default connect(mapToProps,{productAction})(ProductsManagement);

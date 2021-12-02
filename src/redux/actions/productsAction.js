@@ -24,25 +24,11 @@ export const productAction = (nama,min,max) =>{
     }
 }
 
-export const sortAction = (sort=null)=>{
-    return async (dispatch)=>{
-        try{
-            let res;
-            if(sort){
-                if(sort.hargaAsc){
-                    res=await axios.get(`${API_URL}/products?_sort=harga&_order=asc`)
-                }else if(sort.hargaDsc){
-                    res=await axios.get(`${API_URL}/products?_sort=harga&_order=desc`)
-                }else if(sort.namaAsc){
-                    res=await axios.get(`${API_URL}/products?_sort=nama&_order=asc`)
-                }else if(sort.namaDsc){
-                    res=await axios.get(`${API_URL}/products?_sort=nama&_order=desc`)
-                }else if(sort.reset){
-                    res = await axios.get(`${API_URL}/products`)
-                }
-            }else{
-                res = await axios.get(`${API_URL}/products`)
-            }
+// Cara mas abdi
+export const sortAction = (sort=null) =>{
+    return async (dispatch) =>{
+        try {
+            let res=await axios.get((`${API_URL}/products?_sort=${sort.field}&_order=${sort.sortType}`))
             dispatch({
                 type:"GET_DATA_PRODUCTS",
                 payload: res.data
@@ -52,6 +38,35 @@ export const sortAction = (sort=null)=>{
         }
     }
 }
+
+// export const sortAction = (sort=null)=>{
+//     return async (dispatch)=>{
+//         try{
+//             let res;
+//             if(sort){
+//                 if(sort.hargaAsc){
+//                     res=await axios.get(`${API_URL}/products?_sort=harga&_order=asc`)
+//                 }else if(sort.hargaDsc){
+//                     res=await axios.get(`${API_URL}/products?_sort=harga&_order=desc`)
+//                 }else if(sort.namaAsc){
+//                     res=await axios.get(`${API_URL}/products?_sort=nama&_order=asc`)
+//                 }else if(sort.namaDsc){
+//                     res=await axios.get(`${API_URL}/products?_sort=nama&_order=desc`)
+//                 }else if(sort.reset){
+//                     res = await axios.get(`${API_URL}/products`)
+//                 }
+//             }else{
+//                 res = await axios.get(`${API_URL}/products`)
+//             }
+//             dispatch({
+//                 type:"GET_DATA_PRODUCTS",
+//                 payload: res.data
+//             })
+//         }catch(error){
+//             console.log(error)
+//         }
+//     }
+// }
 
 
 

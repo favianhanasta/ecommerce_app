@@ -7,18 +7,19 @@ import HomePage from './pages/HomePage';
 import ProductsManagement from './pages/ProductsManagement';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { loginAction,productAction } from './redux/actions';
+import { loginAction,productAction,updateUserCart } from './redux/actions';
 import ProductsPage from './pages/ProductsPage';
 import { API_URL } from './helper';
 import ProductDetail from './pages/ProductDetail';
-
+import CartPage from './pages/CartPage';
 
 
 class App extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-        loading : true
+        loading : true,
+        payment : 0
     }
   }
   componentDidMount(){
@@ -44,6 +45,8 @@ class App extends React.Component{
     }
   }
 
+  
+
   // getProduct=()=>{
   //   this.props.productAction()
   //   // axios.get(`${API_URL}/products`)
@@ -68,10 +71,10 @@ class App extends React.Component{
           <Route path="/productManagement-page" element={<ProductsManagement/>}/>
           <Route path="/product-pages" element={<ProductsPage/>}/>
           <Route path="/productdetail-page" element={<ProductDetail/>}/>
+          <Route path="/cart-user" element={<CartPage/>} />
         </Routes>
       </div>
     )
   }
 }
-
-export default connect(null,{loginAction,productAction})(App);
+export default connect(null,{loginAction,productAction,updateUserCart})(App);

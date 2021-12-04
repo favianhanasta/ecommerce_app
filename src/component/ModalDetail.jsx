@@ -25,8 +25,8 @@ class ModalDetail extends React.Component {
     }
 
     printStock=()=>{
-        if(this.props.produk[this.props.selectedId].stock){
-            return this.props.produk[this.props.selectedId].stock.map((item,index)=>{
+        if(this.props.produk.stock){
+            return this.props.produk.stock.map((item,index)=>{
                 return(
                     <Row>
                         <Col>
@@ -49,9 +49,9 @@ class ModalDetail extends React.Component {
     }
 
     printImages = () => {
-        if (this.props.produk[this.props.selectedId].images) {
-            return this.props.produk[this.props.selectedId].images.map((item, index) => {
-                return <Input disabled={!this.state.disable} type="text" defaultValue={item} placeholder={`Images-${index + 1}`} onChange={(e)=>this.handleImages(e,index)}/>
+        if (this.props.produk.images) {
+            return this.props.produk.images.map((item, index) => {
+                return <Input disabled={!this.state.disable} type="text" defaultValue={item} placeholder={`Images-${index + 1}`} onChange={(e)=>this.handleEditImages(e,index)}/>
             })
         }
     }
@@ -62,37 +62,37 @@ class ModalDetail extends React.Component {
             brand : this.inBrand.value,
             kategori : this.inKategori.value,
             deskripsi : this.inDeskripsi.value,
-            harga : this.inHarga.value,
+            harga : parseInt(this.inHarga.value),
             // stock : this.state.stock,
             // images : this.state.images
-            stock : this.state.stock.length == 0 ? this.props.produk[this.props.selectedId].images : this.state.stock,
-            images : this.state.images.length == 0 ? this.props.produk[this.props.selectedId].images : this.state.images
+            stock : this.state.stock.length == 0 ? this.props.produk.stock : this.state.stock,
+            images : this.state.images.length == 0 ? this.props.produk.images : this.state.images
         }
         console.log("testing save", data)
-        axios.patch(`${API_URL}/products/${this.props.produk[this.props.selectedId].id}`,data)
+        axios.patch(`${API_URL}/products/${this.props.produk.id}`,data)
         .then((res)=>{
             this.props.productAction();
             this.props.btCancel()
-            this.setState({stock:[],images:[]})
+            this.setState({stock:[],images:[],disable:false})
         }).catch((err)=>{
             console.log(err)
         })
     }
 
-    handleImages = (e,index) =>{
-        let temp =[...this.props.produk[this.props.selectedId].images]
+    handleEditImages = (e,index) =>{
+        let temp =[...this.props.produk.images]
         temp [index] = e.target.value
         this.setState({images : temp})
     }
 
     handleType = (e,index) =>{
-        let temp = [...this.props.produk[this.props.selectedId].stock];
+        let temp = [...this.props.produk.stock];
         temp[index].type=e.target.value
         this.setState({stock:temp})
     }
     handleQty = (e,index) =>{
-        let temp = [...this.props.produk[this.props.selectedId].stock];
-        temp[index].qty=e.target.value
+        let temp = [...this.props.produk.stock];
+        temp[index].qty=parseInt(e.target.value)
         this.setState({stock:temp})
     }
 
@@ -109,13 +109,13 @@ class ModalDetail extends React.Component {
                             <Label for="nama">
                                 Nama
                             </Label>
-                            <Input id="nama" defaultValue={this.props.produk[this.props.selectedId].nama} disabled={!this.state.disable} innerRef={(el)=>this.inNama=el}/>
+                            <Input id="nama" defaultValue={this.props.produk.nama} disabled={!this.state.disable} innerRef={(el)=>this.inNama=el}/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="deskripsi">
                                 Deskripsi
                             </Label>
-                            <Input id="deskripsi" type="textarea" defaultValue={this.props.produk[this.props.selectedId].deskripsi} disabled={!this.state.disable} innerRef={(el)=>this.inDeskripsi=el}/>
+                            <Input id="deskripsi" type="textarea" defaultValue={this.props.produk.deskripsi} disabled={!this.state.disable} innerRef={(el)=>this.inDeskripsi=el}/>
                         </FormGroup>
                         <FormGroup>
                             <div className="row">
@@ -123,13 +123,13 @@ class ModalDetail extends React.Component {
                                     <Label for="brand">
                                         Brand
                                     </Label>
-                                <Input id="brand" defaultValue={this.props.produk[this.props.selectedId].brand} disabled={!this.state.disable} innerRef={(el)=>this.inBrand=el}/>                            
+                                <Input id="brand" defaultValue={this.props.produk.brand} disabled={!this.state.disable} innerRef={(el)=>this.inBrand=el}/>                            
                                 </div>
                                 <div className="col-6"> 
                                     <Label for="Kategori" >
                                         Kategori
                                     </Label>
-                                <Input id="kategori" defaultValue={this.props.produk[this.props.selectedId].kategori} disabled={!this.state.disable} innerRef={(el)=>this.inKategori=el}/>                            
+                                <Input id="kategori" defaultValue={this.props.produk.kategori} disabled={!this.state.disable} innerRef={(el)=>this.inKategori=el}/>                            
                                 </div>
                             </div>
                         </FormGroup>
@@ -137,7 +137,7 @@ class ModalDetail extends React.Component {
                             <Label for="harga">
                                 Harga
                             </Label>
-                            <Input id="harga" type="number" defaultValue={this.props.produk[this.props.selectedId].harga} disabled={!this.state.disable} innerRef={(el)=>this.inHarga=el}/>
+                            <Input id="harga" type="number" defaultValue={this.props.produk.harga} disabled={!this.state.disable} innerRef={(el)=>this.inHarga=el}/>
                         </FormGroup>
                         <FormGroup>
                             <div className="row">

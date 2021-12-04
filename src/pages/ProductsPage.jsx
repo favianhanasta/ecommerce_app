@@ -56,7 +56,6 @@ class ProductsPage extends React.Component {
         this.inSearchName.value=""
         this.hargaMin.value=null
         this.hargaMax.value=null
-        this.sortInput.value="harga-asc"
     }
 
     // btnSort =()=>{
@@ -113,7 +112,7 @@ class ProductsPage extends React.Component {
                         <div className="col-4 m-auto ">
                             <Label for="sort">Sort</Label>
                             <InputGroup className="d-flex">
-                            <Input id="sort"type="select" className=""style={{width:"150px"}}  onChange={this.handleSort}>  
+                            <Input id="sort" type="select" style={{width:"150px"}}  onChange={this.handleSort}>  
                             <option value="harga-asc">Harga Asc</option>
                             <option value="harga-desc">Harga Desc</option>
                             <option value="nama-asc">A-Z</option>

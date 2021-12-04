@@ -1,8 +1,8 @@
 import axios from "axios";
 import React from "react";
-import { Container, Table,Button,Modal,ModalHeader, Input,Col,Row,ButtonGroup} from "reactstrap";
+import { Container, Table,Button,Modal,ModalHeader, Input,Col,Row,ButtonGroup, InputGroupText, Label,Form,FormGroup} from "reactstrap";
 import ModalDetail from "../component/ModalDetail";
-import {productAction} from '../redux/actions'
+import {productAction,sortAction} from '../redux/actions'
 import {connect} from 'react-redux'
 import ModalInput from "../component/ModalInput";
 import NavItem from "@restart/ui/esm/NavItem";
@@ -36,7 +36,8 @@ class ProductsManagement extends React.Component {
             thumbnailIdx : 0,
             selectedIdImage : null,
             page:1,
-            handle : 2
+            handle : 4,
+            detailProduk:{}
             
             
         }
@@ -58,9 +59,10 @@ class ProductsManagement extends React.Component {
         
     // }
     
-    toggle=(idx)=>{
+    toggle=(value)=>{
+        console.log("tst data",this.state.detailProduk)
         this.setState({ 
-            selectedIdx : idx,
+            detailProduk:value,
             modal : !this.state.modal
         })
     }
@@ -97,7 +99,6 @@ class ProductsManagement extends React.Component {
 
     btnCancel=()=>{
         this.setState({
-            selectedIdx:null,
             modal : false
         })
     }
@@ -112,13 +113,13 @@ class ProductsManagement extends React.Component {
         return this.props.productsList.slice(page>1? (page-1)*handle :page-1,page*handle).map((value,index)=>{
             return (
                 <tr>
-                    <td>{value.id}</td>
+                    <td>{page > 1 ? (page - 1) * handle + index + 1 : index + 1}</td>
                     <td>
                         {
                             this.state.selectedIdImage==index?
-                            <img src={value.images[this.state.thumbnailIdx]} width="40%"/>
+                            <img src={value.images[this.state.thumbnailIdx]} width="50%"/>
                             :
-                            <img src={value.images[0]} width="40%"/>
+                            <img src={value.images[0]} width="50%"/>
                         }
                         <div>
                             {value.images.map((val,idx)=>{
@@ -131,24 +132,11 @@ class ProductsManagement extends React.Component {
                     <td>{value.nama}</td>
                     <td>{value.brand}</td>
                     <td>{value.kategori}</td>
-                    <td>IDR {value.harga}</td>
+                    <td>IDR {value.harga.toLocaleString()}</td>
                     <td>
-                        <Button type="button" color="primary" className="m-2" outline onClick={()=>this.toggle(index)}>
+                        <Button type="button" color="primary" className="m-2" outline onClick={()=>this.setState({ detailProduk:value,modal : !this.state.modal})}>
                             Detail
                         </Button>
-                        {
-                            this.props.productsList.length > 0 && this.state.selectedIdx != null ?
-                            <ModalDetail
-                            produk={this.props.productsList}
-                            selectedId = {this.state.selectedIdx}
-                            toggle={this.toggle}
-                            modal={this.state.modal}
-                            btCancel = {this.btnCancel}
-                            handleInput={this.handleInput}
-                            paramImg={this.paramImg}/>
-                            :null
-                            
-                        }
                         <Button type="button" color="danger" className="m-2" outline onClick={()=>this.btnDelete(index)}>
                             Delete
                         </Button>
@@ -241,42 +229,95 @@ class ProductsManagement extends React.Component {
     }
     
     handlePage =(e)=>{
-        this.setState({handle: parseInt(e.target.value)})
+        this.setState({handle: parseInt(e.target.value),page:1})
         console.log("tst value",e.target.value)
+    }
+
+    btSearch=()=>{
+        this.props.productAction(this.inSearchName.value,this.hargaMin.value,this.hargaMax.value)
+        this.setState({page:1})
+    }
+
+    btReset =()=>{
+        this.props.productAction()
+        this.props.sortAction()
+        this.inSearchName.value=""
+        this.hargaMin.value=null
+        this.hargaMax.value=null
+    }
+    handleSort =(e)=>{
+        this.props.sortAction({
+            field : e.target.value.split('-')[0],
+            sortType : e.target.value.split('-')[1]
+        })
     }
     
     render() {
-        console.log(this.props.productsList)
+        console.log("test",this.state.detailProduk)
         return ( 
-            <Container>
-                <Container className=" text-center my-3">
+            <div className="container-fluid">
+                <ModalDetail
+                    produk={this.state.detailProduk}
+                    selectedId = {this.state.selectedIdx}
+                    toggle={this.toggle}
+                    modal={this.state.modal}
+                    btCancel = {this.btnCancel}
+                    handleInput={this.handleInput}
+                    />
+                <Container className="my-3 text-center">
                     <h1> Products Management</h1>
                 </Container>
-                <div>
-                    <div>
-                        <Container className="my-2 d-flex justify-content-end">
-                        <Button onClick={this.toggleInput} color="success">
-                            Add Product
-                        </Button>
-                        <ModalInput
-                        toggleInput={this.toggleInput}
-                        modalInput={this.state.modalInput}
-                        handleInput={this.handleInput}
-                        handleImage={this.handleImage}
-                        btnSubmit={this.btnSubmit}
-                        addImage={this.addImage}
-                        addStock={this.addStock}
-                        stockQty={this.stockQty}
-                        stockType={this.stockType}
-                        inputImage={this.state.inputImage}
-                        inputStock={this.state.inputStock}
-                        btnDeleteImage={this.btnDeleteImage}
-                        btnDeleteInputStock={this.btnDeleteInputStock}
-                        />
-                        </Container>
-                    
+                <div className="row">
+                    <div className="col-12 col-md-4">
+                                <FormGroup>
+                                <Button  color="success" style={{width:"100%"}}    onClick={this.toggleInput}>
+                                Add Product
+                                </Button>
+                                <ModalInput
+                                toggleInput={this.toggleInput}
+                                modalInput={this.state.modalInput}
+                                handleInput={this.handleInput}
+                                handleImage={this.handleImage}
+                                btnSubmit={this.btnSubmit}
+                                addImage={this.addImage}
+                                addStock={this.addStock}
+                                stockQty={this.stockQty}
+                                stockType={this.stockType}
+                                inputImage={this.state.inputImage}
+                                inputStock={this.state.inputStock}
+                                btnDeleteImage={this.btnDeleteImage}
+                                btnDeleteInputStock={this.btnDeleteInputStock}
+                                />
+                                </FormGroup>
+                            <div className="d-flex d-md-block">
+                                <FormGroup>
+                                    <Label for="cari-nama">Nama</Label>
+                                    <Input id="cari-nama" type="text" innerRef={(element)=> this.inSearchName=element}/>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="harga-min">Harga</Label>
+                                    <div className="d-flex">
+                                    <Input id="harga-min"  type="number" placeholder="Minimum" innerRef={(element)=> this.hargaMin=element}/>
+                                    <Input id="harga-max"  type="number" placeholder="Maximum" innerRef={(element)=> this.hargaMax=element}/>                                    
+                                    </div>
+                                </FormGroup>
+                                <FormGroup>
+                                <Label for="sort">Sort</Label>
+                                <Input id="sort"type="select" className=""onChange={this.handleSort}>  
+                                    <option value="harga-asc">Harga Asc</option>
+                                    <option value="harga-desc">Harga Desc</option>
+                                    <option value="nama-asc">A-Z</option>
+                                    <option value="nama-desc">Z-A</option>
+                                    <option value="id-asc">Reset</option>
+                                </Input>
+                                <FormGroup className="d-flex justify-content-end my-3">
+                            <Button outline color="warning" className="mx-2" onClick={this.btReset}>Reset</Button>
+                                <Button color="primary" onClick={this.btSearch} >Search</Button>
+                                </FormGroup>
+                                </FormGroup>
+                                </div>
                     </div>
-                    <div className="col-12">
+                    <div className="col-12 col-md-8">
                         <Table>
                         <thead>
                         <tr className="text-center">
@@ -313,7 +354,7 @@ class ProductsManagement extends React.Component {
                 
 
 
-            </Container>
+            </div>
          );
     }
 }
@@ -324,4 +365,4 @@ const mapToProps=((state)=>{
     }
 })
 
-export default connect(mapToProps,{productAction})(ProductsManagement);
+export default connect(mapToProps,{productAction,sortAction})(ProductsManagement);

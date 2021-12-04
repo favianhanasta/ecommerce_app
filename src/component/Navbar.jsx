@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Nav, Navbar, NavbarBrand, NavbarText, NavbarToggler, NavLink, Collapse, NavItem,Button,UncontrolledDropdown,DropdownItem,DropdownMenu,DropdownToggle,Spinner } from "reactstrap";
@@ -20,6 +19,15 @@ class NavbarComponent extends React.Component {
         })
 
     }
+
+    totalQty = ()=>{
+        let total=0
+            this.props.cart.forEach((val) => {
+                total += val.qty   
+            });
+            return total
+    }
+
     render() { 
         return ( 
             <Navbar expand="md" className="shadow bg-white rounded">
@@ -59,11 +67,11 @@ class NavbarComponent extends React.Component {
                                     this.props.role == "user"
                                         ?
                                         <DropdownMenu right>
-                                            <DropdownItem>
-                                                <Link to="" style={{ color: "#2d3436", textDecoration:"none" }}>
-                                                    Cart
-                                                </Link>
-                                            </DropdownItem>
+                                            <Link to="/cart-user" style={{ color: "#2d3436", textDecoration:"none" }}>
+                                                <DropdownItem>
+                                                    Cart <span className="badge badge-danger">{this.totalQty()}</span>
+                                                </DropdownItem>
+                                            </Link>
                                             <DropdownItem>
                                                 <Link to="" style={{ color: "#2d3436", textDecoration:"none"  }}>
                                                     Transactions
@@ -116,7 +124,8 @@ class NavbarComponent extends React.Component {
 const mapToProps = (state) =>{
     return {
         username : state.userReducer.username,
-        role : state.userReducer.role
+        role : state.userReducer.role,
+        cart : state.userReducer.cart
     }
 }
  

@@ -6,15 +6,8 @@
       "email": "admin@mail.com",
       "password": "1234",
       "role": "admin",
-      "status": "Active"
-    },
-    {
-      "username": "budi",
-      "email": "@gmail.com",
-      "password": "123",
-      "role": "user",
       "status": "Active",
-      "id": 2
+      "cart": []
     },
     {
       "username": "budi",
@@ -22,7 +15,8 @@
       "password": "123",
       "role": "user",
       "status": "Active",
-      "id": 3
+      "id": 3,
+      "cart": []
     }
   ],
   "products": [
@@ -54,18 +48,18 @@
       "nama": "HAUGA V.2",
       "brand": "Mr. DYI",
       "deskripsi": "Mudah untuk menyembunyikan kabel dan stopkontak tapi tetap dapat dijangkau dengan jalur kabel di bagian belakang.",
-      "kategori": "Perabotan",
+      "kategori": "Mebel",
       "harga": 1200000,
       "stock": [
         {
           "id": null,
-          "type": "Black",
-          "qty": 5
+          "type": "M",
+          "qty": 12
         },
         {
           "id": null,
-          "type": "White",
-          "qty": 10
+          "type": "L",
+          "qty": 18
         }
       ],
       "images": [
@@ -81,7 +75,7 @@
       "deskripsi": "Lebar:\t55 cm Kedalaman:\t69,5 cm Tinggi:\t72,4 cm Lebar dudukan:\t57 cm Kedalaman dudukan:\t50 cm Tinggi dudukan:\t42,4 cm Berat total:\t6,50 kg",
       "brand": "IKEA",
       "kategori": "Kursi",
-      "harga": "995000",
+      "harga": 995000,
       "stock": [
         {
           "id": null,
@@ -155,12 +149,12 @@
       "deskripsi": "Anda dapat menggunakan panci ini dengan tutup di kompor dan oven, dan membawanya ke meja dan menyajikan makanan dari itu.",
       "brand": "IKEA",
       "kategori": "Panci dengan penutup",
-      "harga": 599000,
+      "harga": 600000,
       "stock": [
         {
           "id": null,
           "type": "R30",
-          "qty": 10
+          "qty": "20"
         },
         {
           "id": null,
@@ -180,11 +174,18 @@
       "deskripsi": "Pot tanaman digalvanis agar terlindung dari karat.",
       "brand": "IKEA",
       "kategori": "Kotak bunga dengan penyangga",
-      "harga": "299000",
+      "harga": 300000,
       "stock": [
-        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/541/0954177_PE804200_S4.jpg",
-        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/541/0954178_PE804201_S4.jpg",
-        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/541/0954179_PE804202_S4.jpg"
+        {
+          "id": null,
+          "type": "Black",
+          "qty": 5
+        },
+        {
+          "id": null,
+          "type": "White",
+          "qty": 10
+        }
       ],
       "images": [
         "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/541/0954177_PE804200_S4.jpg",
@@ -198,7 +199,7 @@
       "deskripsi": " Ritsleting yang tersembunyi membuat sarung mudah dilepas.  Sarung bantal dengan tampilan cermin karena memiliki pola yang sama di kedua sisi.  Katun adalah bahan alami lembut dan mudah dirawat yang dapat Anda cuci dengan mesin.",
       "brand": "IKEA",
       "kategori": "Perabotan",
-      "harga": 79000,
+      "harga": 80000,
       "stock": [
         {
           "id": null,
@@ -221,7 +222,7 @@
       "nama": "HAUGA V.3",
       "brand": "Mr. DYI",
       "deskripsi": "Mudah untuk menyembunyikan kabel dan stopkontak tapi tetap dapat dijangkau dengan jalur kabel di bagian belakang.",
-      "kategori": "Perabotan",
+      "kategori": "Kabel",
       "harga": 1200000,
       "stock": [
         {
@@ -248,10 +249,18 @@
       "deskripsi": "Lebar:\t55 cm Kedalaman:\t69,5 cm Tinggi:\t72,4 cm Lebar dudukan:\t57 cm Kedalaman dudukan:\t50 cm Tinggi dudukan:\t42,4 cm Berat total:\t6,50 kg",
       "brand": "IKEA",
       "kategori": "Kursi",
-      "harga": "995000",
+      "harga": 995000,
       "stock": [
-        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/334/0933452_PE791908_S4.jpg",
-        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/407/0940712_PE795127_S4.jpg"
+        {
+          "id": null,
+          "type": "Black",
+          "qty": 5
+        },
+        {
+          "id": null,
+          "type": "White",
+          "qty": 10
+        }
       ],
       "images": [
         "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/334/0933452_PE791908_S4.jpg",
@@ -264,7 +273,7 @@
       "deskripsi": " Anda dapat dengan mudah menyedot debu di bawah rangka tempat tidur untuk menjaga ruang tetap bersih dan bebas debu.  Ada banyak ruang di bawah tempat tidur untuk kotak penyimpanan sehingga sempurna untuk menyimpan selimut dan bantal tambahan.  Sisi tempat tidur dapat disesuaikan memungkinkan Anda untuk menggunakan kasur dengan ketebalan yang berbeda.  Veneer kayu memberi Anda tampilan, rasa dan keindahan yang sama seperti kayu solid dengan variasi unik dalam serat, warna, dan tekstur.",
       "brand": "IKEA",
       "kategori": "Rangka tempat tidur",
-      "harga": "5499000",
+      "harga": 5499000,
       "stock": [
         {
           "id": null,
@@ -339,11 +348,18 @@
       "deskripsi": "Pot tanaman digalvanis agar terlindung dari karat.",
       "brand": "IKEA",
       "kategori": "Kotak bunga dengan penyangga",
-      "harga": "299000",
+      "harga": 300000,
       "stock": [
-        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/541/0954178_PE804201_S4.jpg",
-        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/541/0954177_PE804200_S4.jpg",
-        "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/541/0954179_PE804202_S4.jpg"
+        {
+          "id": null,
+          "type": "Black",
+          "qty": 5
+        },
+        {
+          "id": null,
+          "type": "White",
+          "qty": 10
+        }
       ],
       "images": [
         "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/541/0954178_PE804201_S4.jpg",

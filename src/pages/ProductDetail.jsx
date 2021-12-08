@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from "react-router-dom";
-import { Button, Collapse, Input, Toast, ToastBody, ToastHeader } from 'reactstrap';
+import { Link,Navigate } from "react-router-dom";
+import { Button, Collapse, Input, Nav, Toast, ToastBody, ToastHeader } from 'reactstrap';
 import { API_URL } from '../helper';
 import { updateUserCart } from '../redux/actions';
 
@@ -61,7 +61,7 @@ class ProductDetail extends React.Component {
         }
     }
 
-    onBtAddToCart = () => {
+    onBtAddToCart  = async () => {
         let { selectedType, detail, qty } = this.state
         if (selectedType.type) {
             let dataCart = {
@@ -74,19 +74,23 @@ class ProductDetail extends React.Component {
                 qty
             }
             // menggabungkan data cart sebelumnya dari reducer, dengan dataCart baru yg akan ditambahkan
-            let temp = [...this.props.cart];
-            temp.push(dataCart);
-
+            this.props.cart.push(dataCart);
             if (this.props.iduser) {
-                axios.patch(`${API_URL}/dataUser/${this.props.iduser}`, {
-                    cart: temp
-                })
-                    .then((res) => {
-                        console.log("data cart", res.data)
-                        this.props.updateUserCart(res.data.cart)
-                    }).catch((err) => {
-                        console.log(err)
-                    })
+                let res = await this.props.updateUserCart(this.props.cart, this.props.iduser);
+                if (res.success){
+                    window.location.assign("http://localhost:3000/cart-user")
+                }
+                // window.location.assign("http://localhost:3000/cart-user")
+                // axios.patch(`${API_URL}/dataUser/${this.props.iduser}`, {
+                //     cart: this.props.cart
+                // })
+                //     .then((res) => {
+                //         console.log("data cart", res.data)
+                //         this.props.updateUserCart(res.data.cart)
+                //         window.location.assign("http://localhost:3000/cart-user")
+                //     }).catch((err) => {
+                //         console.log(err)
+                //     })
             } else {
                 this.setState({ toastOpen: !this.state.toastOpen, toastMsg: "Silahkan Login Terlebih Dahulu" })
             }
@@ -158,11 +162,11 @@ class ProductDetail extends React.Component {
         
                                         </div>
                                 </div>
-                                    <Link to={this.state.linkCart} style={{textDecoration:"none" }} to="/cart-user">
+                                    {/* <Link to="/cart-page"> */}
                                     <Button type="button" color="warning" style={{ width: '100%' }} onClick={this.onBtAddToCart} >
                                         Add to cart
                                     </Button>
-                                    </Link>
+                                    {/* </Link> */}
                             </div>
                         </>
                     }

@@ -69,14 +69,14 @@ class NavbarComponent extends React.Component {
                                         <DropdownMenu right>
                                             <Link to="/cart-user" style={{ color: "#2d3436", textDecoration:"none" }}>
                                                 <DropdownItem>
-                                                    Cart <span className="badge badge-danger">{this.totalQty()}</span>
+                                                    Cart <span className="badge badge-danger" >{this.totalQty()}</span>
                                                 </DropdownItem>
                                             </Link>
-                                            <DropdownItem>
-                                                <Link to="" style={{ color: "#2d3436", textDecoration:"none"  }}>
-                                                    Transactions
-                                                </Link>
-                                            </DropdownItem>
+                                            <Link to="/history-user" style={{ color: "#2d3436", textDecoration:"none"  }}>
+                                                <DropdownItem>
+                                                    Transactions History
+                                                </DropdownItem>
+                                            </Link>
                                             <DropdownItem>
                                                 <Link to="" style={{ color: "#2d3436", textDecoration:"none"  }}>
                                                     Profile
@@ -85,7 +85,8 @@ class NavbarComponent extends React.Component {
                                             <DropdownItem divider/>
                                             <DropdownItem onClick={()=>{
                                                 localStorage.removeItem("data");
-                                                this.props.logOutAction()}}>
+                                                this.props.logOutAction()
+                                                window.location.assign("http://localhost:3000/")}}>
                                                 Keluar
                                             </DropdownItem>
                                         </DropdownMenu>
@@ -97,7 +98,7 @@ class NavbarComponent extends React.Component {
                                                 </Link>
                                             </DropdownItem>
                                             <DropdownItem>
-                                                <Link to="/productManagement-page" style={{ color: "#2d3436" }} className="nav-link">
+                                                <Link to="/transaction-management" style={{ color: "#2d3436" }} className="nav-link">
                                                     Transactions Management
                                                 </Link>
                                             </DropdownItem>

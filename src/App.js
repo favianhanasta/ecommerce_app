@@ -12,6 +12,9 @@ import ProductsPage from './pages/ProductsPage';
 import { API_URL } from './helper';
 import ProductDetail from './pages/ProductDetail';
 import CartPage from './pages/CartPage';
+import NotFoundPage from './pages/NotFound';
+import HistoryPage from './pages/HistoryPage';
+import TransactionAdminPage from './pages/TransactionManagement';
 
 
 class App extends React.Component{
@@ -68,13 +71,33 @@ class App extends React.Component{
         <Routes>
           <Route path="/" element={<HomePage/>}/>
           <Route path="/auth-page" element={<AuthV2/>}/>
-          <Route path="/productManagement-page" element={<ProductsManagement/>}/>
-          <Route path="/product-pages" element={<ProductsPage/>}/>
           <Route path="/productdetail-page" element={<ProductDetail/>}/>
-          <Route path="/cart-user" element={<CartPage/>} />
+          <Route path="/product-pages" element={<ProductsPage/>}/>
+          {
+            this.props.role == "user" ?
+            <>
+            <Route path="/cart-user" element={<CartPage/>} />
+            <Route path="/history-user" element={<HistoryPage/>} />
+            </>
+            :
+            this.props.role == "admin" ?
+            <>
+            <Route path="/transaction-management" element={<TransactionAdminPage/>}/>
+            </>
+            :
+            <Route path="*" element={<NotFoundPage/>} />
+
+          }
+          <Route path="*" element={<NotFoundPage/>} />
         </Routes>
       </div>
     )
   }
 }
-export default connect(null,{loginAction,productAction,updateUserCart})(App);
+
+const mapToProps = (state) =>{
+  return {
+    role : state.userReducer.role
+  }
+}
+export default connect(mapToProps,{loginAction,productAction,updateUserCart})(App);

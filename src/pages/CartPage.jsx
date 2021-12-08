@@ -10,61 +10,42 @@ class CartPage extends React.Component {
         super(props);
         this.state = { 
             detail :[],
-            paymentItem : [900000,700000],
-            totalPayment : 0,
+            ongkir : 0,
          }
     }
 
     componentDidMount(){
-        this.printTotalPayment()
     }
 
     onBtInc=(index)=>{
-        this.props.cart[index].qty += 1
-        this.props.cart[index].totalHarga += this.props.cart[index].harga
+        let temp = [...this.props.cart]
+        temp[index].qty += 1
+        temp[index].totalHarga += temp[index].harga
         console.log("qty", this.props.cart[index].totalHarga)
-        axios.patch(`${API_URL}/dataUser/${this.props.iduser}`,{cart:this.props.cart})
-        .then((res)=>{
-            this.props.updateUserCart(res.data.cart)
-        }).catch((err)=>{
-            console.log(err)
-        })
+        this.props.updateUserCart(temp,this.props.iduser)
     }
 
     onBtDec=(index)=>{
-        if(this.props.cart[index].qty > 1){
-            this.props.cart[index].qty -= 1
-            this.props.cart[index].totalHarga -= this.props.cart[index].harga
-            console.log("qty", this.props.cart[index].qty)
-            axios.patch(`${API_URL}/dataUser/${this.props.iduser}`,{cart:this.props.cart})
-            .then((res)=>{
-                this.props.updateUserCart(res.data.cart)
-                // this.setState({
-                //     paymentItem : this.state.paymentItem-this.props.cart[index].harga
-                // })
-            }).catch((err)=>{
-                console.log(err)
-            })
+        let temp = [...this.props.cart]
+        if(temp[index].qty > 1){
+            temp[index].qty -= 1
+            temp[index].totalHarga -= temp[index].harga
+        }else{
+            temp.splice(index,1)
         }
+        this.props.updateUserCart(temp,this.props.iduser)
     }
 
     onBtRemove = (index) =>{
         this.props.cart.splice(index,1)
-        axios.patch(`${API_URL}/dataUser/${this.props.iduser}`,{cart:this.props.cart})
-            .then((res)=>{
-                this.props.updateUserCart(res.data.cart)
-            }).catch((err)=>{
-                console.log(err)
-            })
+        this.props.updateUserCart(this.props.cart,this.props.iduser)
+        // axios.patch(`${API_URL}/dataUser/${this.props.iduser}`,{cart:this.props.cart})
+        //     .then((res)=>{
+        //         this.props.updateUserCart(res.data.cart)
+        //     }).catch((err)=>{
+        //         console.log(err)
+        //     })
         
-    }
-
-    printTotalPayment =()=>{
-        let total = this.state.totalPayment
-        this.props.cart.forEach((val) => {
-            total += val.totalHarga    
-        });
-        return this.setState({totalPayment : total})
     }
 
     printCart =()=>{
@@ -85,7 +66,7 @@ class CartPage extends React.Component {
                             </div>
                             <div className="d-flex justify-content-center col-md-3">
                                 <Button color="secondary" onClick={()=> this.onBtDec(idx)} style={{fontWeight:"bolder"}}> - </Button>
-                                <Input className="mx-1" value={val.qty} style={{width:"20%"}}/>                               
+                                <Input className="mx-1 text-center" value={val.qty} style={{width:"20%"}}/>                               
                                 <Button color="success" onClick={()=>this.onBtInc(idx,val)} style={{fontWeight:"bolder"}}> + </Button>
                             </div>
                             <div className="col-md-2">
@@ -102,9 +83,35 @@ class CartPage extends React.Component {
     totalPayment = () => {
         let total=0
             this.props.cart.forEach((val) => {
-                total += val.totalHarga    
+                total += val.totalHarga  
             });
-            return <h3 style={{fontWeight:"bolder"}}>Rp {(total).toLocaleString()}</h3>
+            return total + this.state.ongkir
+    }
+
+    btnCheckOut = () =>{
+        // yg disimpan : iduser, username,invoice,date,note,total_payment, detail[], status="Menunggu Konfirmasi"
+        const d = new Date();
+        let data = {
+            iduser : this.props.iduser,
+            username : this.props.username,
+            invoice : `#INV/${d.getTime()}`,
+            date : d.toLocaleString("id-ID"),
+            totalPayment : this.totalPayment(),
+            ongkir : parseInt(this.state.ongkir),
+            detail : [...this.props.cart],
+            note : this.noteTransaction.value,
+            status : " Menunggu Konfirmasi"
+        }
+        console.log("cek out", data)
+        axios.post(`${API_URL}/userTransactions`,data)
+        .then((res)=>{
+            alert("checkout berhasil dilakukan")
+            this.setState({ongkir:0})
+            this.props.updateUserCart([],this.props.iduser)
+        }).catch((err)=>{
+            console.log(err)
+        })
+        
     }
 
     render() { 
@@ -121,17 +128,17 @@ class CartPage extends React.Component {
                         <div className="col-md-4 pb-2 ">
                             <div className="container shadow bg-white rounded py-3 align-items-center m-auto">
                                 <h4>Total Payment</h4>
-                                {this.totalPayment()}
+                                <h3 style={{fontWeight:"bolder"}}>Rp {(this.totalPayment()).toLocaleString()}</h3>
                                 <FormGroup>
                                     <Label for="pengiriman">Biaya Pengiriman</Label>
-                                    <Input id="pengiriman" type="number"/>
+                                    <Input id="pengiriman" type="text" onChange={(e)=>this.setState({ongkir:parseInt(e.target.value)})}/>
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for="notes">Notes</Label>
-                                    <Input id="notes" type="textarea"/>
+                                    <Input id="notes" type="textarea" innerRef={(element) => this.noteTransaction = element}/>
                                     </FormGroup>
                                 <div className="d-flex justify-content-end">
-                                <Button color="success"  className="mx-3">Checkout</Button>
+                                <Button color="success"  className="mx-3" onClick={this.btnCheckOut}>Checkout</Button>
                                 </div>
                             </div>
                         </div>
@@ -148,7 +155,8 @@ class CartPage extends React.Component {
 const mapToProps = (state) => {
     return {
         cart: state.userReducer.cart,
-        iduser : state.userReducer.id
+        iduser : state.userReducer.id,
+        username : state.userReducer.username
     }
 }
  

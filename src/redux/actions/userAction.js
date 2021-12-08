@@ -25,9 +25,19 @@ export const logOutAction=()=>{
     }
 }
 
-export const updateUserCart = (data) => {
-    return {
-        type: "UPDATE_CART_USER",
-        payload: data
+export const updateUserCart = (data, id) => {
+    return async (dispatch) =>{
+        try{
+        let res = await axios.patch(`${API_URL}/dataUser/${id}`,{cart:data})
+            dispatch ({
+                type: "UPDATE_CART_USER",
+                payload: res.data.cart
+            })
+            return {success:true}
+        }
+        catch(error){
+            console.log(error)
+
+        }
     }
 }
